@@ -1,0 +1,19 @@
+{
+  "index_type": "bm25",
+  "variant": "topic_aggtext",
+  "aggregation": "none",
+  "bm25_params": {
+    "k1": 1.5,
+    "b": 0.75,
+    "epsilon": 0.25
+  },
+  "k1": 1.5,
+  "b": 0.75,
+  "epsilon": 0.25,
+  "vocab_size": 109632,
+  "n_documents": 294,
+  "n_classes": 294,
+  "tokenization": "regex_unicode_lower",
+  "classes_path": "classes.json",
+  "bm25_backend": "rank_bm25"
+}

@@ -1,0 +1,71 @@
+{
+  "run_id": "20260505_234500_three_way",
+  "model_family": "calibration",
+  "created_at": "2026-05-05T20:30:29Z",
+  "config_path": "configs\\final.yaml",
+  "config_hash": "sha256:a814ee917782d04e6538ffcdf131f6f8cae959a3585c8c7a23ea92dd6784188d",
+  "seed": 42,
+  "data": {
+    "train_path": "data/splits/train.parquet",
+    "train_hash": "sha256:3254408d0dd08bae5e306f1075ece2cffc7593215308a1ba0f719d9f4761b033",
+    "val_path": "data/splits/val.parquet",
+    "val_hash": "sha256:d3f159595f76b79330ee07c27a99d34a77914dd4dec785a4b8d50045558a2a97",
+    "test_path": "data/splits/test.parquet",
+    "test_hash": "sha256:3e923b53e0518e99eb0a21fefd47b8550f6f693c640c448672957e1a712cbf08",
+    "splits_version": "sha256:819b765df8368035d6c29b1a54477d760de429cfdc3b91eb69791049adfd16dc",
+    "topics_path": "data/processed/topics.csv",
+    "taxonomy_version": "sha256:85f23a78d109c9be7430a46e6427f9070f6d267492970a7adba2a24f3840fe90"
+  },
+  "preprocessing": {
+    "to_lower": true,
+    "normalize_unicode": true,
+    "collapse_spaces": true,
+    "mask_pii": true,
+    "min_text_len": 10,
+    "max_text_len": 2000
+  },
+  "model": {
+    "family": "calibration",
+    "params": {
+      "n_bins": 15
+    }
+  },
+  "artifacts": {
+    "calibration_dir": "experiments/calibration_v1/artifacts/calibration/20260505_234500_three_way",
+    "platt": "experiments/calibration_v1/artifacts/calibration/20260505_234500_three_way/platt.pkl",
+    "isotonic": "experiments/calibration_v1/artifacts/calibration/20260505_234500_three_way/isotonic.pkl",
+    "three_way_source": "artifacts/three_way_hybrid/20260505_232616_three_way_promoted"
+  },
+  "environment": {
+    "python": "3.10.11",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.7.2",
+      "scipy": "1.15.3",
+      "torch": "2.5.1+cu121",
+      "transformers": "4.57.3",
+      "sentence-transformers": "5.1.2",
+      "faiss-cpu": "1.13.0"
+    }
+  },
+  "metrics_path": "reports/runs/20260505_234500_three_way/metrics.json",
+  "splits": {
+    "version": "sha256:819b765df8368035d6c29b1a54477d760de429cfdc3b91eb69791049adfd16dc",
+    "legacy_random_val": false,
+    "policy": "time_based"
+  },
+  "calibration": {
+    "val_fit_sha256": "946e2573ff6b39a6300250b65b5b75a749706e0c097aa8f3a0c1b62cc2814c03",
+    "val_pick_sha256": "6b6623566f5004e294e2e3ec8fc563ba20ac2ce682ab088d3cb834812bbab8de",
+    "chosen_calibrator": "isotonic",
+    "ece_val_pick_pre": 0.4463635455397958,
+    "ece_val_pick_chosen": 0.010196389047823707,
+    "ece_test": 0.01854818321602577,
+    "brier_test": 0.2164067914625183,
+    "gpu_fallback_ladder": [
+      "('cuda', 64, None)"
+    ]
+  }
+}

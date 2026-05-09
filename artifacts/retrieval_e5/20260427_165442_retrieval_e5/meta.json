@@ -1,0 +1,12 @@
+{
+  "model_name": "intfloat/multilingual-e5-base",
+  "normalize_embeddings": true,
+  "faiss_metric": "IP",
+  "embedding_dim": 768,
+  "index_ntotal": 294,
+  "representation": "centroid",
+  "classes_path": "classes.json",
+  "e5_prefix_query": "query: ",
+  "e5_prefix_passage": "passage: ",
+  "encoder_revision": "d128750597153bb5987e10b1c3493a34e5a4502a"
+}

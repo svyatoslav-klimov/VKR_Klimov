@@ -1,0 +1,10 @@
+{
+  "run_id": "20260505_234500_three_way",
+  "chosen_calibrator": "isotonic",
+  "ece_val_pick_pre": 0.4463635455397958,
+  "ece_val_pick_chosen": 0.010196389047823707,
+  "ece_val_fit_post": 1.1961929834715694e-17,
+  "ece_test": 0.01854818321602577,
+  "brier_test": 0.2164067914625183,
+  "artifacts_dir": "experiments/calibration_v1/artifacts/calibration/20260505_234500_three_way"
+}

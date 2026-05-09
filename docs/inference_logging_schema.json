@@ -1,0 +1,107 @@
+{
+  "title": "ORLLM inference daily Parquet log",
+  "task_id": "TASK-032",
+  "storage": {
+    "format": "parquet",
+    "partitioning": "one file per UTC calendar day",
+    "default_path_pattern": "reports/inference_logs/YYYY-MM-DD.parquet"
+  },
+  "columns": [
+    {
+      "name": "request_hash",
+      "logical_type": "string",
+      "description": "Correlation id. Server-computed for predict: sha256(text + LF + timestamp_floor_minute_utc), prefixed with sha256:. Client-supplied on feedback."
+    },
+    {
+      "name": "timestamp_utc",
+      "logical_type": "string",
+      "description": "ISO-8601 UTC microsecond timestamp when the row was written."
+    },
+    {
+      "name": "date_utc",
+      "logical_type": "string",
+      "description": "UTC date YYYY-MM-DD; selects the Parquet filename."
+    },
+    {
+      "name": "text_len",
+      "logical_type": "int64",
+      "description": "Character length of trimmed request text for predict; 0 for feedback."
+    },
+    {
+      "name": "raw_text",
+      "logical_type": "string",
+      "nullable": true,
+      "description": "Full utterance only when INFERENCE_LOG_RAW_TEXT=1; otherwise null."
+    },
+    {
+      "name": "top_k_ids",
+      "logical_type": "list<string>",
+      "description": "Ranked topic_id list from fusion (may be non-empty even when UX hides suggestions)."
+    },
+    {
+      "name": "top_k_scores",
+      "logical_type": "list<float64>",
+      "description": "Raw fused scores aligned with top_k_ids."
+    },
+    {
+      "name": "top_k_scores_calibrated",
+      "logical_type": "list<float64>",
+      "nullable_elements": true,
+      "description": "Calibrated scores where defined (typically top-1 only); null entries otherwise."
+    },
+    {
+      "name": "chosen_topic",
+      "logical_type": "string",
+      "nullable": true,
+      "description": "Feedback chosen_topic_id for event_type=feedback; null for predict."
+    },
+    {
+      "name": "was_in_top_k",
+      "logical_type": "boolean",
+      "nullable": true,
+      "description": "Reserved for TASK-033 join of feedback to predict logs; always null in TASK-032."
+    },
+    {
+      "name": "latency_ms",
+      "logical_type": "float64",
+      "nullable": true,
+      "description": "Predict latency from API response when available; null on validation errors or feedback."
+    },
+    {
+      "name": "model_version",
+      "logical_type": "string",
+      "description": "Promoted run id (artifacts directory name); empty on feedback rows."
+    },
+    {
+      "name": "taxonomy_version",
+      "logical_type": "string",
+      "description": "Manifest taxonomy_version; empty on feedback rows."
+    },
+    {
+      "name": "prefix_len_used",
+      "logical_type": "int64",
+      "description": "Query length used with prefix UX metadata (Python len of trimmed text on predict)."
+    },
+    {
+      "name": "ux_shown",
+      "logical_type": "bool",
+      "description": "Whether suggestions were returned after server-side prefix gating."
+    },
+    {
+      "name": "conf_channel",
+      "logical_type": "string",
+      "description": "Prefix policy confidence channel name (e.g. ensemble); empty when unknown."
+    },
+    {
+      "name": "conf_value",
+      "logical_type": "float64",
+      "nullable": true,
+      "description": "Scalar confidence used for tau gate; null when unavailable."
+    },
+    {
+      "name": "event_type",
+      "logical_type": "string",
+      "description": "predict or feedback"
+    }
+  ]
+}

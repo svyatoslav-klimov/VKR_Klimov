@@ -1,0 +1,35 @@
+# Git LFS for large binary model artifacts and prepared data.
+# Sizes (Iter-3 snapshot):
+#   artifacts/sparse_tfidf/.../model.pkl                  ~457 MB  (LFS required: > 100 MB)
+#   artifacts/retrieval_e5/.../embeddings_train.npy       ~375 MB  (LFS required: > 100 MB)
+#   experiments/bm25_v1/.../model.pkl                     ~ 50 MB
+#   artifacts/retrieval_e5/.../embeddings_val.npy         ~ 32 MB
+#   data/splits/train.parquet                             ~ 21 MB
+#   artifacts/retrieval_e5/.../embeddings_test.npy        ~ 17 MB
+#   artifacts/sparse_tfidf/.../vectorizer.pkl             ~  9 MB
+#   data/splits/val.parquet                               ~  2 MB
+#   data/splits/test.parquet                              ~  1 MB
+#   artifacts/retrieval_e5/.../themes.faiss               ~  1 MB
+#
+# Uniform LFS rule for all binary types — small files cost almost
+# nothing in LFS, while large ones are mandatory.
+
+*.pkl    filter=lfs diff=lfs merge=lfs -text
+*.npy    filter=lfs diff=lfs merge=lfs -text
+*.faiss  filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.bin    filter=lfs diff=lfs merge=lfs -text
+*.pt     filter=lfs diff=lfs merge=lfs -text
+*.pth    filter=lfs diff=lfs merge=lfs -text
+*.onnx   filter=lfs diff=lfs merge=lfs -text
+*.h5     filter=lfs diff=lfs merge=lfs -text
+*.joblib filter=lfs diff=lfs merge=lfs -text
+
+# Text files are stored normally (no LFS, default newline handling).
+*.json   text eol=lf
+*.yaml   text eol=lf
+*.yml    text eol=lf
+*.md     text eol=lf
+*.py     text eol=lf
+*.csv    text eol=lf
+*.txt    text eol=lf

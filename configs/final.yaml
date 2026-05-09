@@ -1,0 +1,89 @@
+# TASK-040 Iter-3 template: 3-way fusion (frozen TASK-037 winner).
+# After `python -m src.cli train-three-way --config configs/final.yaml`,
+# set `inference.artifacts_dir` to the printed `artifacts/three_way_hybrid/<run_id>/`.
+run_name: iter3_final_three_way
+model_family: three_way_hybrid
+seed: 42
+data:
+  train_path: data/splits/train.parquet
+  val_path: data/splits/val.parquet
+  test_path: data/splits/test.parquet
+  topics_path: data/processed/topics.csv
+  taxonomy_yaml: configs/taxonomy.yaml
+preprocessing:
+  to_lower: true
+  normalize_unicode: true
+  collapse_spaces: true
+  mask_pii: true
+  min_text_len: 10
+  max_text_len: 2000
+three_way: &tw040
+  sparse_artifacts_dir: artifacts/sparse_tfidf/20260427_143358_sparse_linear_svc
+  retrieval_artifacts_dir: artifacts/retrieval_e5/20260427_165442_retrieval_e5
+  retrieval_manifest_path: artifacts/manifests/20260427_165442_retrieval_e5.json
+  bm25_artifacts_dir: experiments/bm25_v1/artifacts/sparse/20260429_023849_bm25_aggtext
+  fusion_mode: weighted_score_minmax
+  norm: minmax
+  candidates: 30
+  lambda_sparse: 0.1
+  lambda_dense: 0.7
+  lambda_bm25: 0.2
+  k_rrf: 60
+  iter2_hybrid_lam_sparse_reference: 0.14
+three_way_hybrid:
+  <<: *tw040
+calibration_run_id: 20260505_234500_three_way
+prefix_policy_run_id: 20260507_131143_three_way_full
+inference:
+  artifacts_dir: artifacts/three_way_hybrid/20260507_135733_three_way_promoted
+eval:
+  k_list:
+    - 1
+    - 3
+    - 5
+    - 10
+  unseen_policy: known_only
+  time_slices: 4
+  head_mid_tail:
+    mode: both
+    practical:
+      head_min: 50
+      mid_min: 10
+    strict:
+      head_min: 500
+      mid_min: 50
+prefix_eval:
+  prefix_lengths:
+    - 10
+    - 20
+    - 30
+    - 50
+    - 100
+    - full
+  channels:
+    - max_score
+    - max_score_calibrated
+    - margin
+    - entropy
+    - normalized_gap
+    - ensemble
+  l_min_grid:
+    - 10
+    - 20
+    - 30
+    - 50
+    - 100
+  tau_quantile_grid:
+    - 0.50
+    - 0.60
+    - 0.70
+    - 0.80
+    - 0.90
+    - 0.95
+  bootstrap_n: 500
+  ci_level: 0.95
+  show_rate_floor: 0.50
+  val_test_parity_tolerance: 0.025
+  cross_prefix_monotonicity_tolerance: 0.02
+calibration:
+  n_bins: 15

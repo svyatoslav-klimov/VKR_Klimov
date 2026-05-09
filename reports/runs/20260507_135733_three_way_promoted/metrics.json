@@ -1,0 +1,133 @@
+{
+  "run_id": "20260507_135733_three_way_promoted",
+  "model_family": "three_way_hybrid",
+  "config_path": "E:/Python/orLLM/configs/final.yaml",
+  "config_hash": "sha256:24d3783afe35ece37748b19ac2ed19c58f36728e7509ed3b706a10cadfee22fc",
+  "seed": 42,
+  "split": "test",
+  "unseen_policy": "known_only",
+  "k_list": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "n_test_total": 5895,
+  "n_test_known": 5892,
+  "n_test_unseen": 3,
+  "taxonomy_version": "sha256:85f23a78d109c9be7430a46e6427f9070f6d267492970a7adba2a24f3840fe90",
+  "n_train_classes": 294,
+  "data_version": {
+    "train_path": "data\\splits\\train.parquet",
+    "val_path": "data\\splits\\val.parquet",
+    "test_path": "data\\splits\\test.parquet",
+    "train_hash": "sha256:3254408d0dd08bae5e306f1075ece2cffc7593215308a1ba0f719d9f4761b033",
+    "val_hash": "sha256:d3f159595f76b79330ee07c27a99d34a77914dd4dec785a4b8d50045558a2a97",
+    "test_hash": "sha256:3e923b53e0518e99eb0a21fefd47b8550f6f693c640c448672957e1a712cbf08",
+    "splits_version": "sha256:819b765df8368035d6c29b1a54477d760de429cfdc3b91eb69791049adfd16dc"
+  },
+  "recall_at_k": {
+    "1": 0.44189991518235794,
+    "3": 0.6357930449533503,
+    "5": 0.7258693808312129,
+    "10": 0.855470737913486
+  },
+  "accuracy_at_1": 0.44189991518235794,
+  "macro_f1": 0.1589878026485229,
+  "weighted_f1": 0.42501263057018035,
+  "mrr_at_10": 0.5655580462323474,
+  "ndcg_at_10": 0.6344946085417899,
+  "head_mid_tail": {
+    "mode": "practical",
+    "thresholds": {
+      "head_min": 50,
+      "mid_min": 10
+    },
+    "head": {
+      "n": 5507,
+      "recall@10": 0.8754312692936262,
+      "macro_f1": 0.46219271307377774
+    },
+    "mid": {
+      "n": 336,
+      "recall@10": 0.6369047619047619,
+      "macro_f1": 0.3000676870461946
+    },
+    "tail": {
+      "n": 52,
+      "recall@10": 0.15384615384615385,
+      "macro_f1": 0.07407407407407407
+    }
+  },
+  "head_mid_tail_strict": {
+    "mode": "strict",
+    "thresholds": {
+      "head_min": 500,
+      "mid_min": 50
+    },
+    "head": {
+      "n": 4334,
+      "recall@10": 0.8827872634979234,
+      "macro_f1": 0.5664874961139753
+    },
+    "mid": {
+      "n": 1173,
+      "recall@10": 0.8482523444160273,
+      "macro_f1": 0.5094969724402181
+    },
+    "tail": {
+      "n": 388,
+      "recall@10": 0.5721649484536082,
+      "macro_f1": 0.19658418897867588
+    }
+  },
+  "by_time_slice": [
+    {
+      "slice": "bucket_1",
+      "n": 1474,
+      "recall@10": 0.850067842605156
+    },
+    {
+      "slice": "bucket_2",
+      "n": 1474,
+      "recall@10": 0.8710990502035278
+    },
+    {
+      "slice": "bucket_3",
+      "n": 1474,
+      "recall@10": 0.8582089552238806
+    },
+    {
+      "slice": "bucket_4",
+      "n": 1473,
+      "recall@10": 0.8424983027834352
+    }
+  ],
+  "latency_ms": {
+    "p50": 0.0006999998731771484,
+    "p95": 0.0011000010999850929,
+    "n": 5895,
+    "device": "precomputed_embeddings"
+  },
+  "three_way_diagnostics": {
+    "precomputed_embeddings": true,
+    "artifacts_dir": "E:/Python/orLLM/artifacts/three_way_hybrid/20260507_135733_three_way_promoted"
+  },
+  "artifacts": {
+    "artifacts_dir": "E:/Python/orLLM/artifacts/three_way_hybrid/20260507_135733_three_way_promoted",
+    "manifest_path": "artifacts/manifests/20260507_135733_three_way_promoted.json"
+  },
+  "notes": "",
+  "retrieval_meta": {
+    "model_name": "intfloat/multilingual-e5-base",
+    "normalize_embeddings": true,
+    "faiss_metric": "IP",
+    "embedding_dim": 768,
+    "index_ntotal": 294,
+    "representation": "centroid",
+    "classes_path": "classes.json",
+    "e5_prefix_query": "query: ",
+    "e5_prefix_passage": "passage: ",
+    "encoder_revision": "d128750597153bb5987e10b1c3493a34e5a4502a"
+  }
+}

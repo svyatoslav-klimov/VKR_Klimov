@@ -1,0 +1,54 @@
+# === Python ===
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# === IDE / Editor ===
+.idea/
+.vscode/
+*.swp
+*.swo
+~$*
+*.bak
+
+# === OS ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Project scratch ===
+temp/
+.tmp_*
+tmp_*/
+*.log
+*.out
+*.err
+
+# === Runtime telemetry (filled at service runtime) ===
+reports/inference_logs/
+reports/active_learning/
+
+# === Secrets ===
+.env
+.env.*
+!.env.example
+secrets.json
+credentials.*
+*.pem
+*.key
+
+# Large NB and notebook checkpoints
+.ipynb_checkpoints/
+
+# NOTE: production binary artifacts (*.pkl, *.npy, *.faiss, *.parquet)
+# are tracked via Git LFS — see .gitattributes. They MUST be present
+# in git history; do NOT add them here.

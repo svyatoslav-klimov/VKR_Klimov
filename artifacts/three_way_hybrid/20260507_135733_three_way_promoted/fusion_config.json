@@ -1,0 +1,14 @@
+{
+  "fusion_mode": "weighted_score_minmax",
+  "norm": "minmax",
+  "candidates": 30,
+  "lambda_sparse": 0.1,
+  "lambda_dense": 0.7,
+  "lambda_bm25": 0.2,
+  "k_rrf": 60,
+  "sparse_artifacts_dir": "artifacts/sparse_tfidf/20260427_143358_sparse_linear_svc",
+  "retrieval_artifacts_dir": "artifacts/retrieval_e5/20260427_165442_retrieval_e5",
+  "bm25_artifacts_dir": "experiments/bm25_v1/artifacts/sparse/20260429_023849_bm25_aggtext",
+  "classes_sha256": "sha256:5277b8972914eba72a27992664161fb378a5c2003dbaab6e22aee1e6cc8998e4",
+  "iter2_hybrid_lam_sparse_reference": 0.14
+}

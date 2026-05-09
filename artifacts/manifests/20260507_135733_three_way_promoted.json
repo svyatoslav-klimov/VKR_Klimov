@@ -1,0 +1,103 @@
+{
+  "run_id": "20260507_135733_three_way_promoted",
+  "model_family": "three_way_hybrid",
+  "created_at": "2026-05-07T10:57:33Z",
+  "config_path": "configs/final.yaml",
+  "config_hash": "sha256:03c3dfa6360f26d2b83530d74b35df89f5ace9dacaa23d156dd644ce85c8a930",
+  "seed": 42,
+  "data": {
+    "train_path": "data/splits/train.parquet",
+    "train_hash": "sha256:3254408d0dd08bae5e306f1075ece2cffc7593215308a1ba0f719d9f4761b033",
+    "val_path": "data/splits/val.parquet",
+    "val_hash": "sha256:d3f159595f76b79330ee07c27a99d34a77914dd4dec785a4b8d50045558a2a97",
+    "test_path": "data/splits/test.parquet",
+    "test_hash": "sha256:3e923b53e0518e99eb0a21fefd47b8550f6f693c640c448672957e1a712cbf08",
+    "splits_version": "sha256:819b765df8368035d6c29b1a54477d760de429cfdc3b91eb69791049adfd16dc",
+    "topics_path": "data/processed/topics.csv",
+    "taxonomy_version": "sha256:85f23a78d109c9be7430a46e6427f9070f6d267492970a7adba2a24f3840fe90",
+    "training_data_policy": "train_only"
+  },
+  "preprocessing": {
+    "to_lower": true,
+    "normalize_unicode": true,
+    "collapse_spaces": true,
+    "mask_pii": true,
+    "min_text_len": 10,
+    "max_text_len": 2000
+  },
+  "model": {
+    "family": "three_way_hybrid",
+    "params": {
+      "sparse_artifacts_dir": "artifacts/sparse_tfidf/20260427_143358_sparse_linear_svc",
+      "retrieval_artifacts_dir": "artifacts/retrieval_e5/20260427_165442_retrieval_e5",
+      "retrieval_manifest_path": "artifacts/manifests/20260427_165442_retrieval_e5.json",
+      "bm25_artifacts_dir": "experiments/bm25_v1/artifacts/sparse/20260429_023849_bm25_aggtext",
+      "fusion_mode": "weighted_score_minmax",
+      "norm": "minmax",
+      "candidates": 30,
+      "lambda_sparse": 0.1,
+      "lambda_dense": 0.7,
+      "lambda_bm25": 0.2,
+      "k_rrf": 60,
+      "iter2_hybrid_lam_sparse_reference": 0.14
+    }
+  },
+  "artifacts": {
+    "fusion_config": "artifacts/three_way_hybrid/20260507_135733_three_way_promoted/fusion_config.json",
+    "classes": "artifacts/three_way_hybrid/20260507_135733_three_way_promoted/classes.json",
+    "meta": "artifacts/three_way_hybrid/20260507_135733_three_way_promoted/meta.json"
+  },
+  "environment": {
+    "python": "3.10.11",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.7.2",
+      "scipy": "1.15.3",
+      "torch": "2.5.1+cu121",
+      "transformers": "4.57.3",
+      "sentence-transformers": "5.1.2",
+      "faiss-cpu": "1.13.0"
+    }
+  },
+  "metrics_path": "reports/runs/20260507_135733_three_way_promoted/metrics.json",
+  "splits": {
+    "version": "sha256:819b765df8368035d6c29b1a54477d760de429cfdc3b91eb69791049adfd16dc",
+    "legacy_random_val": false,
+    "policy": "time_based"
+  },
+  "retrieval_meta": {
+    "encoder_name": "intfloat/multilingual-e5-base",
+    "encoder_revision": "d128750597153bb5987e10b1c3493a34e5a4502a",
+    "normalize_embeddings": true,
+    "faiss_metric": "IP",
+    "embedding_dim": 768,
+    "index_ntotal": 294,
+    "representation": "centroid",
+    "classes_path": "artifacts/retrieval_e5/20260427_165442_retrieval_e5/classes.json",
+    "e5_prefix_query": "query: ",
+    "e5_prefix_passage": "passage: ",
+    "encoder_batch_size": 32,
+    "device": "cuda",
+    "embeddings_train_sha256": "sha256:9db0adb4681f30e50addb5688e5cf557b6915cf2939916f4fbb00b6999bf5335",
+    "embeddings_test_sha256": "sha256:d6984f532ce27292aa764ebac40f4eefeea18c5559dbdc901d3137df98ecd5f1",
+    "promotion_run": {
+      "run_id": "20260507_135733_three_way_promoted",
+      "fusion_config": {
+        "fusion_mode": "weighted_score_minmax",
+        "norm": "minmax",
+        "candidates": 30,
+        "lambda_sparse": 0.1,
+        "lambda_dense": 0.7,
+        "lambda_bm25": 0.2,
+        "k_rrf": 60,
+        "sparse_artifacts_dir": "artifacts/sparse_tfidf/20260427_143358_sparse_linear_svc",
+        "retrieval_artifacts_dir": "artifacts/retrieval_e5/20260427_165442_retrieval_e5",
+        "bm25_artifacts_dir": "experiments/bm25_v1/artifacts/sparse/20260429_023849_bm25_aggtext",
+        "classes_sha256": "sha256:5277b8972914eba72a27992664161fb378a5c2003dbaab6e22aee1e6cc8998e4",
+        "iter2_hybrid_lam_sparse_reference": 0.14
+      }
+    }
+  }
+}

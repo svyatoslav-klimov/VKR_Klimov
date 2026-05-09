@@ -1,0 +1,48 @@
+seed: 42
+
+paths:
+  clean_csv: data/interim/clean.csv
+  topics_csv: data/processed/topics.csv
+  train_path: data/splits/train.parquet
+  val_path: data/splits/val.parquet
+  test_path: data/splits/test.parquet
+
+columns:
+  text: обращение
+  topic: тема
+  topic_id: topic_id
+  created_at: created_at
+  created_at_legacy: created_at_parsed
+
+# Same preprocessing as train configs: rows below min_text_len dropped at split time.
+preprocessing:
+  to_lower: true
+  normalize_unicode: true
+  collapse_spaces: true
+  mask_pii: true
+  min_text_len: 10
+  max_text_len: 2000
+
+split:
+  test_start: "2024-07-01"
+  val_window_months: 3
+  test_window_months: 2
+  seed: 42
+  report_dir: reports/split
+  topics_summary_path: reports/eda/topics_summary.json
+
+normalization:
+  to_lower: true
+  replace_yo: true
+  collapse_spaces: true
+
+taxonomy:
+  aliases_path: configs/taxonomy.yaml
+
+eval:
+  k_list: [1, 3, 5, 10]
+  unseen_policy: known_only
+  head_mid_tail:
+    mode: practical
+    head_min: 50
+    mid_min: 10
