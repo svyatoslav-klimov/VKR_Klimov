@@ -41,27 +41,63 @@ class FakePredictor:
                 "classes and topics metadata"
             )
         if len(text) < 100:
+            # Simulate "low confidence" path: items still populated,
+            # shown=False because tau-gate fails (not because of L_min).
+            short_items = [
+                PredictItem(
+                    topic_id="short_a",
+                    topic_name="short theme A",
+                    rank=1,
+                    score_raw=0.5,
+                    score_calibrated=0.4 if return_calibrated else None,
+                ),
+                PredictItem(
+                    topic_id="short_b",
+                    topic_name="short theme B",
+                    rank=2,
+                    score_raw=0.3,
+                    score_calibrated=None,
+                ),
+            ]
+            short_meta = None
+            if return_meta:
+                from src.api.schema import PredictMeta
+
+                short_meta = PredictMeta(
+                    run_id="r",
+                    calibration_run_id=None,
+                    prefix_policy_run_id=None,
+                    prefix_policy={
+                        "l_min": 100,
+                        "channel": "ensemble",
+                        "tau": 0.7,
+                    },
+                )
             if _log_sink is not None:
                 _log_sink.clear()
                 _log_sink.update(
                     {
-                        "top_k_ids": ["pseudo_a", "pseudo_b"],
-                        "top_k_scores": [0.9, 0.1],
-                        "top_k_scores_calibrated": [None, None],
+                        "top_k_ids": [it.topic_id for it in short_items],
+                        "top_k_scores": [
+                            float(it.score_raw) for it in short_items
+                        ],
+                        "top_k_scores_calibrated": [
+                            it.score_calibrated for it in short_items
+                        ],
                         "prefix_len_used": len(text),
                         "conf_channel": "ensemble",
                         "conf_value": 0.2,
                     }
                 )
             return PredictResponse(
-                items=[],
-                top10=[],
+                items=short_items,
+                top10=list(short_items),
                 shown=False,
-                shown_topic_ids=[],
+                shown_topic_ids=[it.topic_id for it in short_items],
                 model_version=self.model_version,
                 taxonomy_version=self.taxonomy_version,
                 latency_ms=0.1,
-                meta=None,
+                meta=short_meta,
                 conf_channel="ensemble",
                 conf_value=0.2,
             )
@@ -198,14 +234,34 @@ def test_predict_200_structure(client_fake: TestClient) -> None:
     assert j["items"][1]["score_calibrated"] is None
 
 
-def test_predict_ux_suppressed_short(client_fake: TestClient) -> None:
+def test_predict_short_text_returns_items_with_shown_false(
+    client_fake: TestClient,
+) -> None:
+    """API must return top-N predictions even on short text;
+    shown=False reflects only the confidence (tau) gate."""
     r = client_fake.post("/predict", json={"text": "y" * 50})
     assert r.status_code == 200
     j = r.json()
     assert j["shown"] is False
-    assert j["items"] == []
-    assert j["top10"] == []
-    assert j["shown_topic_ids"] == []
+    assert len(j["items"]) > 0
+    assert len(j["top10"]) > 0
+    assert j["items"] == j["top10"]
+    assert set(j["shown_topic_ids"]) == {
+        i["topic_id"] for i in j["items"]
+    }
+
+
+@pytest.mark.parametrize("length", [1, 5, 50, 100, 200, 500])
+def test_predict_any_length_returns_top10(
+    client_fake: TestClient, length: int,
+) -> None:
+    """L_min gate dropped: API returns top-N for any non-empty
+    text length within max_text_len."""
+    r = client_fake.post("/predict", json={"text": "x" * length})
+    assert r.status_code == 200
+    j = r.json()
+    assert len(j["items"]) > 0
+    assert j["items"] == j["top10"]
 
 
 def test_predict_closed_set_500(client_fake: TestClient) -> None:

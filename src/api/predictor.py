@@ -270,9 +270,11 @@ class OrllmPredictor:
         self._closed_set_validate(ids, classes_set)
 
         ux_conf = self._ux_confidence_scalar(row_scores, return_calibrated=return_calibrated)
-        show_by_len = len(text) >= self._l_min
-        show_by_tau = ux_conf >= self._tau
-        shown = bool(show_by_len and show_by_tau)
+        # DECISION-2026-05-09-056: L_min length-gate moved to frontend.
+        # API returns top-10 for any non-empty text; `shown` reflects only
+        # the confidence (tau) gate. `meta.prefix_policy.l_min` stays
+        # exposed as an informational hint for the frontend UX policy.
+        shown = bool(ux_conf >= self._tau)
 
         latency_ms = (time.perf_counter() - t0) * 1000.0
 
@@ -288,10 +290,6 @@ class OrllmPredictor:
                     "conf_value": float(ux_conf),
                 }
             )
-
-        if not shown:
-            items = []
-            ids = []
 
         meta: PredictMeta | None = None
         if return_meta:
