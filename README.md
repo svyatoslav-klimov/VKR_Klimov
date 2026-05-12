@@ -63,8 +63,3 @@
 | Нормализация | `min-max` |
 | Число кандидатов на канал | `30` |
 | Калибровка top-1 уверенности | `isotonic regression` |
-
-Финальные метрики сохранены в файле:
-
-```text
-reports/runs/20260507_135733_three_way_promoted/metrics.json
